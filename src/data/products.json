@@ -1,0 +1,182 @@
+[
+  {
+    "id": 1,
+    "name": "Ibanez RG550",
+    "brand": "Ibanez",
+    "price": 999.99,
+    "description": "La RG550 es una guitarra de alta calidad, ideal para rock y metal, con un diseño moderno y una construcción resistente.",
+    "specifications": {
+      "body_material": "Basswood",
+      "neck_material": "Maple",
+      "fingerboard_material": "Rosewood",
+      "frets": 24,
+      "pickup_configuration": "HSH",
+      "bridge": "Edge tremolo",
+      "finish": "Desert Sun Yellow"
+    },
+    "stock": 15,
+    "rating": 4.7,
+    "reviews_count": 98,
+    "image": "ibanez_RG550.webp"
+  },
+  {
+    "id": 2,
+    "name": "Ibanez JEM7V",
+    "brand": "Ibanez",
+    "price": 2899.99,
+    "description": "La Ibanez JEM7V es la guitarra signature de Steve Vai, con diseño exclusivo y un sonido potente y versátil.",
+    "specifications": {
+      "body_material": "Alder",
+      "neck_material": "Maple/Walnut",
+      "fingerboard_material": "Ebony",
+      "frets": 24,
+      "pickup_configuration": "HSH",
+      "bridge": "Edge tremolo",
+      "finish": "White"
+    },
+    "stock": 5,
+    "rating": 4.9,
+    "reviews_count": 200,
+    "image": "ibanez_JEM7Vjpg.webp"
+  },
+  {
+    "id": 3,
+    "name": "Ibanez AZ2204",
+    "brand": "Ibanez",
+    "price": 1499.99,
+    "description": "La AZ2204 combina versatilidad con comodidad, ideal para una amplia gama de estilos musicales.",
+    "specifications": {
+      "body_material": "Alder",
+      "neck_material": "Maple",
+      "fingerboard_material": "Rosewood",
+      "frets": 22,
+      "pickup_configuration": "SSS",
+      "bridge": "Gotoh tremolo",
+      "finish": "Antique White"
+    },
+    "stock": 10,
+    "rating": 4.5,
+    "reviews_count": 85,
+    "image": "ibanez_AZ2204jpg.webp"
+  },
+  {
+    "id": 4,
+    "name": "Fender Stratocaster American Professional II",
+    "brand": "Fender",
+    "price": 1699.99,
+    "description": "La Stratocaster American Professional II ofrece una combinación perfecta de tono clásico y mejoras modernas.",
+    "specifications": {
+      "body_material": "Alder",
+      "neck_material": "Maple",
+      "fingerboard_material": "Maple",
+      "frets": 22,
+      "pickup_configuration": "SSS",
+      "bridge": "2-Point tremolo",
+      "finish": "Olympic White"
+    },
+    "stock": 8,
+    "rating": 4.8,
+    "reviews_count": 125,
+    "image": "fender_stratocaster_american_professional_2.webp"
+  },
+  {
+    "id": 5,
+    "name": "Fender Telecaster American Ultra",
+    "brand": "Fender",
+    "price": 1899.99,
+    "description": "La Telecaster American Ultra es la guitarra perfecta para quienes buscan versatilidad y rendimiento de primera.",
+    "specifications": {
+      "body_material": "Alder",
+      "neck_material": "Maple",
+      "fingerboard_material": "Rosewood",
+      "frets": 22,
+      "pickup_configuration": "SS",
+      "bridge": "Fixed",
+      "finish": "Texas Tea"
+    },
+    "stock": 12,
+    "rating": 4.7,
+    "reviews_count": 67,
+    "image": "fender_telecaster_american_ultra.webp"
+  },
+  {
+    "id": 6,
+    "name": "Fender Jazzmaster American Original '60s",
+    "brand": "Fender",
+    "price": 2199.99,
+    "description": "La Jazzmaster American Original '60s ofrece un tono vintage y diseño retro para músicos de estilo alternativo.",
+    "specifications": {
+      "body_material": "Alder",
+      "neck_material": "Maple",
+      "fingerboard_material": "Rosewood",
+      "frets": 21,
+      "pickup_configuration": "SS",
+      "bridge": "Floating Tremolo",
+      "finish": "Olympic White"
+    },
+    "stock": 7,
+    "rating": 4.6,
+    "reviews_count": 95,
+    "image": "fender_jazzmaster_american_original_60s.webp"
+  },
+  {
+    "id": 7,
+    "name": "Gibson Les Paul Standard '50s",
+    "brand": "Gibson",
+    "price": 2499.99,
+    "description": "La Les Paul Standard '50s ofrece un tono cálido y poderoso, ideal para rock y blues.",
+    "specifications": {
+      "body_material": "Mahogany",
+      "neck_material": "Mahogany",
+      "fingerboard_material": "Rosewood",
+      "frets": 22,
+      "pickup_configuration": "HH",
+      "bridge": "Tune-O-Matic",
+      "finish": "Heritage Cherry Sunburst"
+    },
+    "stock": 4,
+    "rating": 4.8,
+    "reviews_count": 300,
+    "image": "gibson_les_paul_standard_50s.webp"
+  },
+  {
+    "id": 8,
+    "name": "Gibson SG Standard",
+    "brand": "Gibson",
+    "price": 1799.99,
+    "description": "La SG Standard es conocida por su diseño icónico y su sonido brillante y contundente.",
+    "specifications": {
+      "body_material": "Mahogany",
+      "neck_material": "Mahogany",
+      "fingerboard_material": "Rosewood",
+      "frets": 22,
+      "pickup_configuration": "HH",
+      "bridge": "Tune-O-Matic",
+      "finish": "Ebony"
+    },
+    "stock": 6,
+    "rating": 4.7,
+    "reviews_count": 180,
+    "image": "gibson_SG_standard.webp"
+  },
+  {
+    "id": 9,
+    "name": "Gibson ES-335",
+    "brand": "Gibson",
+    "price": 2999.99,
+    "description": "La Gibson ES-335 es una guitarra semi-hollow con un tono cálido y resonante, ideal para jazz y blues.",
+    "specifications": {
+      "body_material": "Maple",
+      "neck_material": "Mahogany",
+      "fingerboard_material": "Rosewood",
+      "frets": 22,
+      "pickup_configuration": "HH",
+      "bridge": "Tune-O-Matic",
+      "finish": "Cherry"
+    },
+    "stock": 3,
+    "rating": 4.9,
+    "reviews_count": 320,
+    "image": "gibson_ES-335.webp"
+  }
+]
