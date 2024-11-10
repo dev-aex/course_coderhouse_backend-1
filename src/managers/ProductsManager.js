@@ -4,17 +4,22 @@ import { generateId } from "../utils/collectionHandler.js";
 import { convertToBool } from "../utils/converter.js";
 import ErrorManager from "./ErrorManager.js";
 
-export default class ProductsManager {
+class ProductsManager {
   #jsonFileName;
   #products;
   constructor() {
     this.#jsonFileName = "products.json";
   }
 
-  // GET ALL
-  async getAll() {
+  // GET PRODUCTS
+  async getProducts(query) {
+    const { limit } = query;
+
     try {
       this.#products = await readJsonFile(paths.data, this.#jsonFileName);
+
+      if (limit > 0) this.#products = this.#products.slice(0, limit);
+
       return this.#products;
     } catch (err) {
       throw new ErrorManager(err.message, err.code);
@@ -24,13 +29,13 @@ export default class ProductsManager {
   // FIND BY ID
   async $findById(id) {
     try {
-      this.#products = await this.getAll();
+      this.#products = await this.getProducts(0);
       const productFound = this.#products.find(
         (product) => product.id === Number(id)
       );
 
       if (!productFound) {
-        throw new ErrorManager(`Error finding the product: [${id}]`, 404);
+        throw new ErrorManager("Error finding the product", 404);
       }
       return productFound;
     } catch (err) {
@@ -53,42 +58,67 @@ export default class ProductsManager {
     try {
       const {
         name,
+        code,
         brand,
         category,
         price,
         description,
         stock,
-        image,
+        thumbnail,
         status,
       } = data;
 
       if (
         !name ||
+        !code ||
         !brand ||
         !category ||
         !price ||
         !description ||
         !stock ||
-        !image ||
         !status
       ) {
         throw new ErrorManager("Missing required data", 400);
       }
 
-      const product = {
-        id: generateId(await this.getAll()),
-        name,
-        brand,
-        category,
-        price,
-        description,
-        stock: Number(stock),
-        image,
-        status: convertToBool(status),
-      };
-      this.#products.push(product);
-      await writeJsonFile(paths.data, this.#jsonFileName, this.#products);
-      return product;
+      let productExists = false;
+
+      this.#products = await this.getProducts(0);
+      const allProducts = this.#products;
+
+      for (const item of allProducts) {
+        if (item.code === data.code) {
+          item.stock++;
+          productExists = true;
+          this.#products = allProducts;
+          await writeJsonFile(paths.data, this.#jsonFileName, this.#products);
+          return item;
+        } else if (item.name === data.name) {
+          item.stock++;
+          productExists = true;
+          this.#products = allProducts;
+          await writeJsonFile(paths.data, this.#jsonFileName, this.#products);
+          return item;
+        }
+      }
+
+      if (!productExists) {
+        const product = {
+          id: generateId(await this.getProducts(0)),
+          name,
+          code,
+          brand,
+          category,
+          price,
+          description,
+          stock: Number(stock),
+          thumbnail: thumbnail || "",
+          status: convertToBool(status),
+        };
+        this.#products.push(product);
+        await writeJsonFile(paths.data, this.#jsonFileName, this.#products);
+        return product;
+      }
     } catch (err) {
       throw new ErrorManager(err.message, err.code);
     }
@@ -99,12 +129,13 @@ export default class ProductsManager {
     try {
       const {
         name,
+        code,
         brand,
         category,
         price,
         description,
         stock,
-        image,
+        thumbnail,
         status,
       } = data;
 
@@ -113,12 +144,13 @@ export default class ProductsManager {
       const product = {
         id: productFound.id,
         name: name ? name : productFound.name,
+        code: code ? code : productFound.code,
         brand: brand ? brand : productFound.brand,
         category: category ? category : productFound.category,
         price: price ? Number(price) : productFound.price,
         description: description ? description : productFound.description,
         stock: stock ? Number(stock) : productFound.stock,
-        image: image ? image : productFound.image,
+        thumbnail: thumbnail ? thumbnail : productFound.thumbnail,
         status: status ? convertToBool(status) : productFound.status,
       };
 
@@ -150,3 +182,5 @@ export default class ProductsManager {
     }
   }
 }
+
+export default ProductsManager;

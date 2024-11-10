@@ -4,7 +4,7 @@ import ErrorManager from "../managers/ErrorManager";
 
 const generateNumber = (startNumber, endNumber) => {
   if (startNumber > endNumber) {
-    throw new ErrorManager("El número inicial no puede ser mayor que el número final", 400 );
+    throw new ErrorManager("The starting number cannot be greater than the ending number", 400 );
   }
 
   return Math.floor(
@@ -14,7 +14,7 @@ const generateNumber = (startNumber, endNumber) => {
 
 const generateNameForFile = (fileName) => {
   if (!fileName || fileName.indexOf(".") === -1) {
-    throw new Error("Nombre de archivo inválido");
+    throw new ErrorManager("No valid file name", 400);
   }
 
   const randomNumber = generateNumber(1000, 9999);

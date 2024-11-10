@@ -4,10 +4,10 @@ import ProductsManager from "../managers/ProductsManager.js";
 const ROUTER = Router();
 const productsManager = new ProductsManager();
 
-// GET ALL
+// GET PRODUCTS
 ROUTER.get("/", async (req, res) => {
   try {
-    const products = await productsManager.getAll(req.query);
+    const products = await productsManager.getProducts(req.query);
 
     res.status(200).json({ status: "success", payload: products });
   } catch (err) {
@@ -16,7 +16,7 @@ ROUTER.get("/", async (req, res) => {
 });
 
 // GET BY ID
-ROUTER.get("/:id", async (req, res) => {
+ROUTER.get("/p:id", async (req, res) => {
   try {
     const product = await productsManager.getById(req.params.id);
     res.status(200).json({ status: "success", payload: product });
@@ -37,7 +37,7 @@ ROUTER.post("/", async (req, res) => {
 });
 
 // PUT
-ROUTER.put("/:id", async (req, res) => {
+ROUTER.put("/p:id", async (req, res) => {
   try {
     const product = await productsManager.updateProduct(
       req.params.id,
@@ -51,7 +51,7 @@ ROUTER.put("/:id", async (req, res) => {
 });
 
 // DELETE
-ROUTER.delete("/:id", async (req, res) => {
+ROUTER.delete("/p:id", async (req, res) => {
   try {
     await productsManager.deleteProduct(req.params.id);
     res.status(200).json({ status: "success" });

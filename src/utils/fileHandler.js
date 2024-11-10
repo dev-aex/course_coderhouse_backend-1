@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 import ErrorManager from "../managers/ErrorManager.js";
 
+// Validation
 const validateFile = (filePath, fileName, fileContent) => {
   if (filePath !== null && filePath === undefined)
     throw new ErrorManager("The file Path was not provided.", 400);
