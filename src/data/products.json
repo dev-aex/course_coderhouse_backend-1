@@ -118,17 +118,5 @@
 		"stock": 10,
 		"thumbnail": "guitarrazo-juanito.webp",
 		"status": true
-	},
-	{
-		"id": 11,
-		"name": "Violita",
-		"code": "V-1",
-		"brand": "Guitarras juanito",
-		"category": "electric guitar",
-		"price": 9.99,
-		"description": "Una guitarra para rolear.",
-		"stock": 7,
-		"thumbnail": "guitarrazo-juanito.webp",
-		"status": true
 	}
 ]
