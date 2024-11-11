@@ -196,6 +196,7 @@ http://localhost:8080/api/carts/c:id
 - Nodemon
 - Moment.js
 - Multer
+- Eslint
 
 # Course information
 - Class: **70365**
