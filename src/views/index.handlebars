@@ -1,0 +1,22 @@
+<div class="main-wrapper">
+  <section class="products-container">
+    {{#each products}}
+      <article class="product-card">
+        <figure>
+          <img
+            class="product-card_image"
+            src="/api/public/images/{{this.thumbnail}}"
+            alt="{{this.name}}"
+          />
+        </figure>
+        <div>
+          <h2>{{this.name}}</h2>
+          <p class="product-card_price">US$ {{formatPrice this.price}}</p>
+          <p>{{this.description}}</p>
+          <button class="product-card_btn">Add to cart</button>
+        </div>
+      </article>
+    {{/each}}
+  </section>
+
+</div>

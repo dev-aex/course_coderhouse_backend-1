@@ -4,7 +4,7 @@ import { generateNameForFile } from "./random.js";
 
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
-    callback(null, paths.images);
+    callback(null, paths.thumbnails);
   },
 
   filename: (req, file, callback) => {

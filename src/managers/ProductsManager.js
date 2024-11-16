@@ -1,7 +1,11 @@
+// UTILS
 import paths from "../utils/paths.js";
-import { readJsonFile, writeJsonFile } from "../utils/fileHandler.js";
 import { generateId } from "../utils/collectionHandler.js";
 import { convertToBool } from "../utils/converter.js";
+import { generateProductCode } from "../utils/random.js";
+import { readJsonFile, writeJsonFile } from "../utils/fileHandler.js";
+
+// MANAGERS
 import ErrorManager from "./ErrorManager.js";
 
 class ProductsManager {
@@ -68,16 +72,7 @@ class ProductsManager {
         status,
       } = data;
 
-      if (
-        !name ||
-        !code ||
-        !brand ||
-        !category ||
-        !price ||
-        !description ||
-        !stock ||
-        !status
-      ) {
+      if (!name || !brand || !category || !price || !description || !stock) {
         throw new ErrorManager("Missing required data", 400);
       }
 
@@ -102,18 +97,25 @@ class ProductsManager {
         }
       }
 
+      const newProductId = generateId(await this.getProducts(0));
+      const newProductCode = await generateProductCode(
+        newProductId,
+        brand,
+        category
+      );
+
       if (!productExists) {
         const product = {
-          id: generateId(await this.getProducts(0)),
+          id: newProductId,
           name,
-          code,
+          code: newProductCode,
           brand,
           category,
-          price,
+          price: Number(price),
           description,
           stock: Number(stock),
           thumbnail: thumbnail || "",
-          status: convertToBool(status),
+          status: true,
         };
         this.#products.push(product);
         await writeJsonFile(paths.data, this.#jsonFileName, this.#products);
@@ -129,7 +131,6 @@ class ProductsManager {
     try {
       const {
         name,
-        code,
         brand,
         category,
         price,
@@ -144,7 +145,7 @@ class ProductsManager {
       const product = {
         id: productFound.id,
         name: name ? name : productFound.name,
-        code: code ? code : productFound.code,
+        code: productFound.code,
         brand: brand ? brand : productFound.brand,
         category: category ? category : productFound.category,
         price: price ? Number(price) : productFound.price,

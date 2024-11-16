@@ -1,4 +1,5 @@
 import { Router } from "express";
+import uploader from "../utils/uploaders.js";
 import ProductsManager from "../managers/ProductsManager.js";
 
 const ROUTER = Router();
@@ -16,7 +17,7 @@ ROUTER.get("/", async (req, res) => {
 });
 
 // GET BY ID
-ROUTER.get("/p:id", async (req, res) => {
+ROUTER.get("/:id", async (req, res) => {
   try {
     const product = await productsManager.getById(req.params.id);
     res.status(200).json({ status: "success", payload: product });
@@ -37,7 +38,7 @@ ROUTER.post("/", async (req, res) => {
 });
 
 // PUT
-ROUTER.put("/p:id", async (req, res) => {
+ROUTER.put("/:id", async (req, res) => {
   try {
     const product = await productsManager.updateProduct(
       req.params.id,
@@ -51,7 +52,7 @@ ROUTER.put("/p:id", async (req, res) => {
 });
 
 // DELETE
-ROUTER.delete("/p:id", async (req, res) => {
+ROUTER.delete("/:id", async (req, res) => {
   try {
     await productsManager.deleteProduct(req.params.id);
     res.status(200).json({ status: "success" });

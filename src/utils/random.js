@@ -1,10 +1,13 @@
 import moment from "moment";
 import path from "path";
-import ErrorManager from "../managers/ErrorManager";
+import ErrorManager from "../managers/ErrorManager.js";
 
 const generateNumber = (startNumber, endNumber) => {
   if (startNumber > endNumber) {
-    throw new ErrorManager("The starting number cannot be greater than the ending number", 400 );
+    throw new ErrorManager(
+      "The starting number cannot be greater than the ending number",
+      400
+    );
   }
 
   return Math.floor(
@@ -24,4 +27,27 @@ const generateNameForFile = (fileName) => {
   return `file_${randomNumber}_${dateTime}${extension}`;
 };
 
-export { generateNumber, generateNameForFile };
+const generateProductCode = (id, productBrand, category) => {
+  let ca = "";
+  let br = "";
+
+  if (category === "electric-guitar") {
+    ca = "EL";
+  } else {
+    ca = "AC";
+  }
+
+  if (productBrand === "ibanez") {
+    br = "IBA";
+  } else if (productBrand === "gibson") {
+    br = "GIB";
+  } else {
+    br = "FEN";
+  }
+
+  const dateTime = moment().format("DDMMYYYY-HHmmss");
+
+  return `${br}_${ca}_${id}_${dateTime}`;
+};
+
+export { generateNumber, generateNameForFile, generateProductCode };

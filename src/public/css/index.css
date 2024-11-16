@@ -1,0 +1,273 @@
+body {
+  display: grid;
+  grid-template-rows: auto 2fr auto;
+  font-family: "Anton", sans-serif;
+  color: white;
+  background-color: rgb(43, 43, 43);
+}
+
+hr {
+  width: 100%;
+  border: 0.1rem solid rgb(71, 71, 71);
+}
+
+/* Header */
+.header-container {
+  width: 100%;
+  height: fit-content;
+
+  margin-bottom: 2rem;
+  padding-block-start: 8rem;
+  padding-block-end: 2rem;
+
+  text-align: center;
+  background-color: rgb(43, 43, 43);
+}
+
+.logo {
+  margin-bottom: 8rem;
+  font-family: "Rock Salt", cursive;
+  font-size: 5rem;
+  font-weight: bold;
+}
+
+.navbar-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.navbar-wrapper ul {
+  display: flex;
+  gap: 10rem;
+}
+
+.navbar-wrapper ul li a {
+  font-size: 2rem;
+}
+.navbar-wrapper ul li a:hover {
+  text-decoration: underline;
+}
+
+/* Main */
+.main-wrapper {
+  width: 100%;
+  margin-bottom: 8rem;
+  padding-inline: 10rem;
+  background-color: rgb(43, 43, 43);
+}
+
+/* Product */
+.products-container {
+  margin-top: 6rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.product-card {
+  width: 38rem;
+  height: 45rem;
+  padding: 4rem;
+
+  background-color: white;
+  border-radius: 2rem;
+
+  color: black;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  box-shadow: -9px 22px 52px -3px #0f0f0fa1;
+  -webkit-box-shadow: -9px 22px 52px -3px #0f0f0fa1;
+  -moz-box-shadow: -9px 22px 52px -3px #0f0f0fa1;
+}
+
+.products-container figure {
+  width: 100%;
+  height: 40%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.product-card_image {
+  width: auto;
+  height: 100%;
+}
+
+.product-card div {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.product-card h2 {
+  font-size: 2.2rem;
+}
+
+.product-card p {
+  font-family: "Open Sans", sans-serif;
+}
+
+.product-card_price {
+  font-size: 2.4rem;
+  font-weight: bold;
+  color: #6c00d1;
+}
+
+.product-card_btn {
+  width: 100%;
+  height: fit-content;
+  padding-block: 1.5rem;
+  text-align: center;
+  color: white;
+  background-color: #6c00d1;
+  border-radius: 1rem;
+}
+
+/* Back Office */
+
+.form-container {
+  padding-block: 6rem;
+  padding-inline: 6rem;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+
+  background-color: white;
+}
+
+.form-container section {
+  margin-top: 4rem;
+  width: 30%;
+}
+
+.form-container form {
+  display: flex;
+  gap: 2rem;
+  flex-direction: column;
+}
+
+.form-container form div {
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
+}
+
+.form-container form input {
+  margin-bottom: 2rem;
+  font-family: "Open Sans", sans-serif;
+  font-weight: bold;
+}
+
+label {
+  color: black;
+  font-family: "Open Sans", sans-serif;
+  font-weight: bold;
+}
+
+input,
+select,
+textarea {
+  height: 4rem;
+
+  color: black;
+
+  border: 0.2rem solid black;
+  border-radius: 0.5rem;
+}
+
+.form_text-input {
+  padding: 1.5rem;
+}
+
+.form_dropdown {
+  height: fit-content;
+  padding: 1.5rem;
+  font-family: "Open Sans", sans-serif;
+  font-weight: bold;
+  color: black;
+}
+
+textarea {
+  height: fit-content;
+
+  font-family: "Open Sans", sans-serif;
+  font-weight: bold;
+  color: black;
+}
+
+.form_file input {
+  border: none;
+}
+
+.form-btn {
+  font-family: "Open Sans", sans-serif;
+  text-align: center;
+  font-weight: bold;
+  border: none;
+  color: white;
+
+  background-color: #6c00d1;
+  border-radius: 1rem;
+}
+
+.hidden {
+  display: none;
+}
+
+.visible {
+  display: block;
+}
+
+.tab--enable {
+  border-bottom: 0.2rem solid black;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.tab--disable {
+  border-bottom: none;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.form_nav ul {
+  display: flex;
+  justify-content: space-between;
+
+  font-family: "Open Sans", sans-serif;
+  font-weight: bold;
+  font-size: 1.8rem;
+  color: #6c00d1;
+}
+
+.form_nav ul li a:hover {
+  color: black;
+}
+
+/* Footer */
+footer {
+  width: 100%;
+  height: 15rem;
+  border-top: 0.1rem solid white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo_footer {
+  font-family: "Rock Salt", cursive;
+  font-size: 2rem;
+  font-weight: bold;
+}
