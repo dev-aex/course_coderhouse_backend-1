@@ -106,5 +106,17 @@
 		"stock": 15,
 		"thumbnail": "gibson_ES-335.webp",
 		"status": true
+	},
+	{
+		"id": 10,
+		"name": "violita rolera",
+		"code": "IBA_AC_10_24112024-153007",
+		"brand": "ibanez",
+		"category": "acoustic-guitar",
+		"price": 500,
+		"description": "una guitarra roleta",
+		"stock": 1,
+		"thumbnail": "",
+		"status": true
 	}
 ]

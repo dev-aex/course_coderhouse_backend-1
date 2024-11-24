@@ -132,9 +132,11 @@ hr {
   border-radius: 1rem;
 }
 
-/* Back Office */
+/* Form */
 
 .form-container {
+  height: fit-content;
+  margin-top: 10rem;
   padding-block: 6rem;
   padding-inline: 6rem;
 
@@ -145,6 +147,7 @@ hr {
   gap: 2rem;
 
   background-color: white;
+  border-radius: 1rem;
 }
 
 .form-container section {
