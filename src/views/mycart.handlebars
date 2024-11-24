@@ -1,0 +1,18 @@
+<div class="cart-container">
+  {{#each productsInCart}}
+    <article class="cart-card">
+      <figure>
+        <img
+          class="cart-card_image"
+          src="/api/public/images/{{this.thumbnail}}"
+          alt="{{this.name}}"
+        />
+      </figure>
+      <div>
+        <h2>{{this.name}}</h2>
+        <p class="cart-card_price">US$ {{formatPrice this.price}}</p>
+      </div>
+    </article>
+  {{/each}}
+
+</div>

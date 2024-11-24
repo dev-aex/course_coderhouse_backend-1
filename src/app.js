@@ -5,6 +5,7 @@ import { config as configHandlebars } from "./config/handlebars.config.js";
 // VIEWS
 import index from "./routes/index.view.router.js";
 import backoffice from "./routes/backoffice.view.router.js";
+import myCart from "./routes/mycart.view.router.js";
 
 const APP = express();
 const PORT = 8080;
@@ -23,6 +24,7 @@ APP.use("/api/carts", cartsRouter);
 // TEMPLATES ROUTES
 APP.use("/", index);
 APP.use("/back-office", backoffice);
+APP.use("/my-cart", myCart);
 
 APP.listen(PORT, () => {
   console.log(`Ejecutando servidor en: http://localhost:${PORT}`);

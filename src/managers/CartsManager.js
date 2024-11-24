@@ -2,6 +2,9 @@ import paths from "../utils/paths.js";
 import { readJsonFile, writeJsonFile } from "../utils/fileHandler.js";
 import { generateId } from "../utils/collectionHandler.js";
 import ErrorManager from "./ErrorManager.js";
+import ProductsManager from "./ProductsManager.js";
+
+const productsManager = new ProductsManager();
 
 class CartsManager {
   #jsonFileName;
@@ -140,6 +143,25 @@ class CartsManager {
       const newCart = await this.updateCart(cart.id, cart);
 
       return newCart;
+    } catch (err) {
+      throw new ErrorManager(err.message, err.code);
+    }
+  }
+
+  // SHOW PRODUCTS IN CART
+  async showProductInCart() {
+    try {
+      this.#carts = await this.getCarts(0);
+
+      [];
+
+      const productInCart = await Promise.all(
+        this.#carts.flatMap((cart) =>
+          cart.products.map((product) => productsManager.$findById(product.id))
+        )
+      );
+
+      return productInCart;
     } catch (err) {
       throw new ErrorManager(err.message, err.code);
     }

@@ -7,12 +7,13 @@ const productsManager = new ProductsManager();
 ROUTER.get("/", async (req, res) => {
   try {
     const products = await productsManager.getProducts(req.query);
+    
     res.status(200).render("index", {
-      title: "Guitarras Alex",
+      title: "Alex's Guitars",
       products,
     });
   } catch (err) {
-    res.status(err.code || 500).send("asasas");
+    res.status(err.code || 500).json({ status: "error", message: err.message });
   }
 });
 

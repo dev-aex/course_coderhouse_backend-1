@@ -106,17 +106,5 @@
 		"stock": 15,
 		"thumbnail": "gibson_ES-335.webp",
 		"status": true
-	},
-	{
-		"id": 10,
-		"name": "11111",
-		"code": "FEN_EL_10_16112024-135104",
-		"brand": "fender",
-		"category": "electric-guitar",
-		"price": 23123,
-		"description": "qsdasdasd",
-		"stock": 12312,
-		"thumbnail": {},
-		"status": true
 	}
 ]

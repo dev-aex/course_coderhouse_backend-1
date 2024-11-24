@@ -16,11 +16,21 @@ const newProductHandler = async (event) => {
     });
 
     if (!res.ok) {
-      alert(`Error adding the product: ${res.statusText} (${res.status} )`);
+      Swal.fire({
+        title: "Error",
+        text: `Error adding the product: ${res.statusText} (${res.status} )`,
+        icon: "error",
+        width: 600,
+      });
       throw new Error("Failed to add a new product");
     }
 
-    alert("Product added");
+    Swal.fire({
+      title: "Product added",
+      icon: "success",
+      width: 600,
+    });
+
     form.reset();
   } catch (err) {
     throw new Error("Error", err);
@@ -37,7 +47,12 @@ const updateProductHandler = async (event) => {
 
   try {
     if (!data.id) {
-      alert("Por favor, agregue el ID del producto");
+      Swal.fire({
+        title: "Error",
+        text: "Please add a product ID",
+        icon: "warning",
+        width: 600,
+      });
       throw new Error("Failed to update the product");
     }
 
@@ -50,11 +65,20 @@ const updateProductHandler = async (event) => {
     });
 
     if (!res.ok) {
-      alert(`Error updating the product: ${res.statusText} (${res.status})`);
+      Swal.fire({
+        title: "Error",
+        text: `Error updating the product: ${res.statusText} (${res.status} )`,
+        icon: "error",
+        width: 600,
+      });
       throw new Error("Failed to update the product");
     }
 
-    alert("Product updated");
+    Swal.fire({
+      title: `Product ID ${data.id} updated`,
+      icon: "success",
+      width: 600,
+    });
     form.reset();
   } catch (err) {
     throw new Error("Failed to update the product");
@@ -71,7 +95,12 @@ const deleteProductHandler = async (event) => {
 
   try {
     if (!data.id) {
-      alert("Please write a product ID");
+      Swal.fire({
+        title: "Error",
+        text: "Please add a product ID",
+        icon: "warning",
+        width: 600,
+      });
       throw new Error("Failed to delete the product");
     }
 
@@ -80,11 +109,21 @@ const deleteProductHandler = async (event) => {
     });
 
     if (!res.ok) {
-      alert(`Error deleting the product: ${res.statusText} (${res.status} )`);
+      Swal.fire({
+        title: "Error",
+        text: `Error deleting the product: ${res.statusText} (${res.status} )`,
+        icon: "error",
+        width: 600,
+      });
       throw new Error("Failed to delete the product");
     }
 
-    alert("Product deleted");
+    Swal.fire({
+      title: `Product ID ${data.id} deleted`,
+      icon: "success",
+      width: 600,
+    });
+
     form.reset();
   } catch (err) {
     throw new Error("Failed to delete the product");
