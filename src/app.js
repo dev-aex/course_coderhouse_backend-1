@@ -5,7 +5,7 @@ import { config as configHandlebars } from "./config/handlebars.config.js";
 import { config as configWebsocket } from "./config/websocket.config.js";
 
 // VIEWS
-import index from "./routes/index.view.router.js";
+import home from "./routes/home.view.router.js";
 import myCart from "./routes/mycart.view.router.js";
 
 const APP = express();
@@ -23,8 +23,13 @@ APP.use("/api/products", productsRouter);
 APP.use("/api/carts", cartsRouter);
 
 // TEMPLATES ROUTES
-APP.use("/", index);
+APP.use("/", home);
 APP.use("/my-cart", myCart);
+
+// 404
+APP.use("*", (req, res) => {
+  res.status(404).render("404", { title: "Error 404" });
+});
 
 const httpServer = APP.listen(PORT, () => {
   console.log(`Ejecutando servidor en: http://localhost:${PORT}`);

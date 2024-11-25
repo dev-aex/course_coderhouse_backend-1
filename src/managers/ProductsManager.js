@@ -88,12 +88,6 @@ class ProductsManager {
           this.#products = allProducts;
           await writeJsonFile(paths.data, this.#jsonFileName, this.#products);
           return item;
-        } else if (item.name === data.name) {
-          item.stock++;
-          productExists = true;
-          this.#products = allProducts;
-          await writeJsonFile(paths.data, this.#jsonFileName, this.#products);
-          return item;
         }
       }
 

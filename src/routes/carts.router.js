@@ -18,7 +18,7 @@ ROUTER.get("/", async (req, res) => {
 });
 
 // GET BY ID
-ROUTER.get("/c:id", async (req, res) => {
+ROUTER.get("/:id", async (req, res) => {
   try {
     const cart = await cartsManager.getById(req.params.id);
     res.status(200).json({ status: "success", payload: cart });
@@ -30,7 +30,7 @@ ROUTER.get("/c:id", async (req, res) => {
 // POST NEW CART
 ROUTER.post("/", async (req, res) => {
   try {
-    const cart = await cartsManager.insertCart(req.body);
+    const cart = await cartsManager.insertCart();
 
     res.status(201).json({ status: "success", payload: cart });
   } catch (err) {
@@ -39,7 +39,7 @@ ROUTER.post("/", async (req, res) => {
 });
 
 // POST PRODUCTS TO CART
-ROUTER.post("/c:cartId/products/p:productId", async (req, res) => {
+ROUTER.post("/:cartId/products/:productId", async (req, res) => {
   try {
     const productFound = await productsManager.getById(req.params.productId);
     const cartFound = await cartsManager.getById(req.params.cartId);
@@ -56,7 +56,7 @@ ROUTER.post("/c:cartId/products/p:productId", async (req, res) => {
 });
 
 // PUT
-ROUTER.put("/c:id", async (req, res) => {
+ROUTER.put("/:id", async (req, res) => {
   try {
     const cart = await cartsManager.updateCart(req.params.id, req.body);
 
@@ -67,7 +67,7 @@ ROUTER.put("/c:id", async (req, res) => {
 });
 
 // DELETE
-ROUTER.delete("/c:id", async (req, res) => {
+ROUTER.delete("/:id", async (req, res) => {
   try {
     await cartsManager.deleteCart(req.params.id);
     res.status(200).json({ status: "success" });

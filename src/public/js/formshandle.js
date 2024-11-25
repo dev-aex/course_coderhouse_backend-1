@@ -1,4 +1,5 @@
-const addProductTab = document.querySelector("#addProductTab");
+document.addEventListener("DOMContentLoaded", () => {
+  const addProductTab = document.querySelector("#addProductTab");
 const updateProductTab = document.querySelector("#updateProductTab");
 const deleteProductTab = document.querySelector("#deleteProductTab");
 
@@ -38,3 +39,5 @@ deleteProductTab.addEventListener("click", () => {
   deleteProductTab.className = "tab--enable";
   deleteProductSection.className = "visible";
 });
+
+})

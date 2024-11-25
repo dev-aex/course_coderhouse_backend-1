@@ -4,7 +4,7 @@ const ROUTER = Router();
 
 ROUTER.get("/", async (req, res) => {
   try {
-    res.status(200).render("index", {
+    res.status(200).render("home", {
       title: "Alex's Guitars",
     });
   } catch (err) {

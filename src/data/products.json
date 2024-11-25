@@ -109,13 +109,28 @@
 	},
 	{
 		"id": 10,
-		"name": "violita rolera",
-		"code": "IBA_AC_10_24112024-153007",
+		"name": "guitarron 1",
+		"code": "IBA_AC_10_25112024-092419",
 		"brand": "ibanez",
 		"category": "acoustic-guitar",
-		"price": 500,
-		"description": "una guitarra roleta",
-		"stock": 1,
+		"price": 22,
+		"description": "update guitarron",
+		"stock": 5,
+		"thumbnail": {
+			"type": "Buffer",
+			"data": []
+		},
+		"status": true
+	},
+	{
+		"id": 11,
+		"name": "guitarron 3",
+		"code": "FEN_AC_11_25112024-144454",
+		"brand": "fender",
+		"category": "acoustic-guitar",
+		"price": 900,
+		"description": "un guitarron 3",
+		"stock": 2,
 		"thumbnail": "",
 		"status": true
 	}

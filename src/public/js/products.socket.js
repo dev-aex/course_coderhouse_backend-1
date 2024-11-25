@@ -5,12 +5,12 @@ const newProductForm = document.querySelector("#formAddProduct");
 const updateProductForm = document.querySelector("#formUpdateProduct");
 const deleteProductForm = document.querySelector("#formDeleteProduct");
 
-socket.on("products-list", (data) => {
+socket.on("products-list", async (data) => {
   const products = data.products || [];
 
   productsCards.innerHTML = "";
 
-  products.forEach((product) => {
+  await products.forEach((product) => {
     const productCardContainer = document.createElement("article");
     const productCardFigure = document.createElement("figure");
     const productCardImg = document.createElement("img");
@@ -22,6 +22,7 @@ socket.on("products-list", (data) => {
 
     // CONTENT
     productCardImg.src = `/api/public/images/${product.thumbnail}`;
+    productCardImg.alt = product.name;
     productCardTitle.textContent = product.name;
     productCardPrice.textContent = product.price;
     productCardDescription.textContent = product.description;
@@ -32,6 +33,12 @@ socket.on("products-list", (data) => {
     productCardImg.className = "product-card_image";
     productCardPrice.className = "product-card_price";
     productCardButton.className = "product-card_btn";
+
+    // product ID
+    productCardContainer.id = product.id;
+
+    // ADD BTN EVENT
+    productCardButton.onclick = (e) => emitAddProduct(e);
 
     productCardFigure.append(productCardImg);
     productCardTextContainer.append(
@@ -46,14 +53,14 @@ socket.on("products-list", (data) => {
   });
 });
 
-newProductForm.onsubmit = (e) => {
+newProductForm.onsubmit = async (e) => {
   e.preventDefault();
   const form = e.target;
   const formData = new FormData(form);
 
   form.reset();
 
-  socket.emit("new-product", {
+  await socket.emit("new-product", {
     name: formData.get("name"),
     brand: formData.get("brand"),
     category: formData.get("category"),
@@ -64,21 +71,21 @@ newProductForm.onsubmit = (e) => {
     status: true,
   });
 
-  Swal.fire({
+  await Swal.fire({
     title: "Product added",
     icon: "success",
     width: 600,
   });
 };
 
-updateProductForm.onsubmit = (e) => {
+updateProductForm.onsubmit = async (e) => {
   e.preventDefault();
   const form = e.target;
   const formData = new FormData(form);
 
   form.reset();
 
-  socket.emit("update-product", {
+  await socket.emit("update-product", {
     id: formData.get("id"),
     data: {
       name: formData.get("name"),
@@ -92,14 +99,14 @@ updateProductForm.onsubmit = (e) => {
     },
   });
 
-  Swal.fire({
+  await Swal.fire({
     title: `Product ID ${formData.get("id")} updated`,
     icon: "success",
     width: 600,
   });
 };
 
-deleteProductForm.onsubmit = (e) => {
+deleteProductForm.onsubmit = async (e) => {
   e.preventDefault();
   const form = e.target;
   const formData = new FormData(form);
@@ -108,17 +115,35 @@ deleteProductForm.onsubmit = (e) => {
 
   const id = formData.get("id");
 
-  socket.emit("delete-product", { id: id });
+  await socket.emit("delete-product", { id: id });
 
-  Swal.fire({
+  await Swal.fire({
     title: `Product ID ${id} deleted`,
     icon: "success",
     width: 600,
   });
 };
 
-socket.on("err-message", (data) => {
-  Swal.fire({
+async function emitAddProduct(e) {
+  e.preventDefault();
+  const product = e.target.parentElement.parentElement;
+
+  await socket.emit("add-product-cart", { cart: 1, product: product.id });
+
+  await Swal.fire({
+    toast: true,
+    icon: "success",
+    title: "Product added to cart",
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+  });
+}
+
+// ERRORS
+socket.on("err-message", async (data) => {
+  await Swal.fire({
     title: `${data.message}`,
     icon: "error",
     width: 600,

@@ -55,17 +55,11 @@ class CartsManager {
   }
 
   // INSERT NEW CART
-  async insertCart(data) {
+  async insertCart() {
     try {
-      const { products } = data;
-
-      if (!products) {
-        throw new ErrorManager("Missing required data", 400);
-      }
-
       const cart = {
         id: generateId(await this.getCarts(0)),
-        products,
+        products: [],
       };
 
       this.#carts.push(cart);
@@ -153,15 +147,38 @@ class CartsManager {
     try {
       this.#carts = await this.getCarts(0);
 
-      [];
-
       const productInCart = await Promise.all(
         this.#carts.flatMap((cart) =>
-          cart.products.map((product) => productsManager.$findById(product.id))
+          cart.products.map(async (product) => {
+            const productData = await productsManager.$findById(product.id);
+            return { ...productData, quantity: product.quantity };
+          })
         )
       );
 
       return productInCart;
+    } catch (err) {
+      throw new ErrorManager(err.message, err.code || 500);
+    }
+  }
+
+  // DELETE PRODUCT ON CART
+  async deleteProductToCart(cart, product) {
+    try {
+      if (!cart || !product) {
+        throw new ErrorManager("Missing required data", 400);
+      }
+
+      const newCart = cart;
+
+      for (let i = 0; i < cart.products.length; i++) {
+        if (cart.products[i].id === product) {
+          newCart.products.splice(i, 1);
+          break;
+        }
+      }
+
+      await this.updateCart(cart.id, newCart);
     } catch (err) {
       throw new ErrorManager(err.message, err.code);
     }
