@@ -1,15 +1,19 @@
 import express from "express";
-import productsRouter from "./routes/products.router.js";
-import cartsRouter from "./routes/carts.router.js";
+import { ROUTER as productsRouter } from "./routes/products.router.js";
+import { ROUTER as cartsRouter } from "./routes/carts.router.js";
 import { config as configHandlebars } from "./config/handlebars.config.js";
 import { config as configWebsocket } from "./config/websocket.config.js";
+import { connectDB } from "./config/mongoose.config.js";
 
 // VIEWS
-import home from "./routes/home.view.router.js";
-import myCart from "./routes/mycart.view.router.js";
+import { ROUTER as home } from "./routes/home.view.router.js";
+import { ROUTER as myCart } from "./routes/mycart.view.router.js";
 
 const APP = express();
 const PORT = 8080;
+
+// DB
+connectDB();
 
 APP.use("/api/public", express.static("./src/public"));
 APP.use(express.urlencoded({ extended: true }));

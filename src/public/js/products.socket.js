@@ -5,8 +5,12 @@ const newProductForm = document.querySelector("#formAddProduct");
 const updateProductForm = document.querySelector("#formUpdateProduct");
 const deleteProductForm = document.querySelector("#formDeleteProduct");
 
+const loader = document.createElement("div");
+loader.className = "loader";
+productsCards.appendChild(loader);
+
 socket.on("products-list", async (data) => {
-  const products = data.products || [];
+  const products = data?.products.docs || [];
 
   productsCards.innerHTML = "";
 
@@ -51,6 +55,28 @@ socket.on("products-list", async (data) => {
     productCardContainer.append(productCardFigure, productCardTextContainer);
     productsCards.append(productCardContainer);
   });
+
+  // PAGINATION
+  const totalPages = data.products.totalPages;
+  const paginationContainer = document.createElement("div");
+  paginationContainer.className = "pages-container";
+  productsCards.appendChild(paginationContainer);
+
+  for (let i = 1; i < totalPages + 1; i++) {
+    let page = document.createElement("a");
+    page.className = "page-number";
+    page.textContent = i;
+
+    page.onclick = (e) => {
+      e.preventDefault();
+      socket.emit("product-page", {
+        page: i,
+      });
+      window.scrollTo(0, 0);
+    };
+
+    paginationContainer.appendChild(page);
+  }
 });
 
 newProductForm.onsubmit = async (e) => {
@@ -88,12 +114,12 @@ updateProductForm.onsubmit = async (e) => {
   await socket.emit("update-product", {
     id: formData.get("id"),
     data: {
-      name: formData.get("name"),
-      brand: formData.get("brand"),
-      category: formData.get("category"),
-      price: formData.get("price"),
-      description: formData.get("description"),
-      stock: formData.get("stock"),
+      name: formData.get("name") || null,
+      brand: formData.get("brand") || null,
+      category: formData.get("category") || null,
+      price: formData.get("price") || null,
+      description: formData.get("description") || null,
+      stock: formData.get("stock") || null,
       thumbnail: formData.get("thumbnail") || null,
       status: true,
     },
@@ -128,7 +154,11 @@ async function emitAddProduct(e) {
   e.preventDefault();
   const product = e.target.parentElement.parentElement;
 
-  await socket.emit("add-product-cart", { cart: 1, product: product.id });
+  await socket.emit("add-product-cart", {
+    cart: "67636f6e67a094f3b700575f",
+    product: product.id,
+    quantity: 1,
+  });
 
   await Swal.fire({
     toast: true,

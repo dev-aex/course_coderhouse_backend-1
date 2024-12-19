@@ -5,11 +5,11 @@ const ROUTER = Router();
 ROUTER.get("/", async (req, res) => {
   try {
     res.status(200).render("home", {
-      title: "Alex's Guitars",
+      title: "Alex Guitars",
     });
   } catch (err) {
     res.status(err.code || 500).json({ status: "error", message: err.message });
   }
 });
 
-export default ROUTER;
+export { ROUTER };

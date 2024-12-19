@@ -1,15 +1,13 @@
 import { Router } from "express";
-import CartsManager from "../managers/CartsManager.js";
-import ProductsManager from "../managers/ProductsManager.js";
+import { CartsManager } from "../managers/CartsManager.js";
 
 const ROUTER = Router();
 const cartsManager = new CartsManager();
-const productsManager = new ProductsManager();
 
-// GET PRODUCTS
+// READ ALL CARTS
 ROUTER.get("/", async (req, res) => {
   try {
-    const carts = await cartsManager.getCarts(req.query);
+    const carts = await cartsManager.readAll(req.query);
 
     res.status(200).json({ status: "success", payload: carts });
   } catch (err) {
@@ -17,63 +15,51 @@ ROUTER.get("/", async (req, res) => {
   }
 });
 
-// GET BY ID
+// READ ONE CART BY ID
 ROUTER.get("/:id", async (req, res) => {
   try {
-    const cart = await cartsManager.getById(req.params.id);
+    const cart = await cartsManager.readOneById(req.params.id);
     res.status(200).json({ status: "success", payload: cart });
   } catch (err) {
     res.status(err.code || 500).json({ status: "error", message: err.message });
   }
 });
 
-// POST NEW CART
+// CREATE ONE CART
 ROUTER.post("/", async (req, res) => {
   try {
-    const cart = await cartsManager.insertCart();
-
+    const cart = await cartsManager.createOne(req.body);
     res.status(201).json({ status: "success", payload: cart });
   } catch (err) {
     res.status(err.code || 500).json({ status: "error", message: err.message });
   }
 });
 
-// POST PRODUCTS TO CART
-ROUTER.post("/:cartId/products/:productId", async (req, res) => {
+// INSERT ONE PRODUCT BY ID
+ROUTER.put("/:cid/product/:pid/:q", async (req, res) => {
   try {
-    const productFound = await productsManager.getById(req.params.productId);
-    const cartFound = await cartsManager.getById(req.params.cartId);
-
-    const cart = await cartsManager.insertProductToCart(
-      cartFound,
-      productFound
+    const cart = await cartsManager.insertOneProductById(
+      req.params.cid,
+      req.params.pid,
+      req.params.q
     );
-
     res.status(201).json({ status: "success", payload: cart });
   } catch (err) {
     res.status(err.code || 500).json({ status: "error", message: err.message });
   }
 });
 
-// PUT
-ROUTER.put("/:id", async (req, res) => {
+// DELETE ONE PRODUCT BY ID
+ROUTER.delete("/:cid/product/:pid", async (req, res) => {
   try {
-    const cart = await cartsManager.updateCart(req.params.id, req.body);
-
-    res.status(200).json({ status: "success", payload: cart });
+    const cart = await cartsManager.deleteOneProductById(
+      req.params.cid,
+      req.params.pid
+    );
+    res.status(201).json({ status: "success", payload: cart });
   } catch (err) {
     res.status(err.code || 500).json({ status: "error", message: err.message });
   }
 });
 
-// DELETE
-ROUTER.delete("/:id", async (req, res) => {
-  try {
-    await cartsManager.deleteCart(req.params.id);
-    res.status(200).json({ status: "success" });
-  } catch (err) {
-    res.status(err.code || 500).json({ status: "error", message: err.message });
-  }
-});
-
-export default ROUTER;
+export { ROUTER };

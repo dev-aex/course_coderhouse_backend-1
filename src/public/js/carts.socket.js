@@ -2,8 +2,12 @@ const socket = io();
 
 const cartContainer = document.querySelector(".cart-container");
 
+const loader = document.createElement("div");
+loader.className = "loader";
+cartContainer.appendChild(loader);
+
 socket.on("cart-list", (data) => {
-  const cart = Object.values(data).flat() || [];
+  const cart = data.cart[0].products;
 
   cartContainer.innerHTML = "";
 
@@ -27,10 +31,10 @@ socket.on("cart-list", (data) => {
       quantityPlus.textContent = "+";
       quantityMinus.textContent = "-";
       quantity.textContent = product.quantity;
-      productImg.src = `/api/public/images/${product.thumbnail}`;
-      productImg.alt = product.name;
-      cartProductName.textContent = product.name;
-      cartProductPrice.textContent = product.price;
+      productImg.src = `/api/public/images/${product.product.thumbnail}`;
+      productImg.alt = product.product.name;
+      cartProductName.textContent = product.product.name;
+      cartProductPrice.textContent = product.product.price;
 
       // STYLES
       cartProductContainer.className = "cart-card";
@@ -45,15 +49,18 @@ socket.on("cart-list", (data) => {
       cartProductName.className = "cart-card_text-name";
       cartProductPrice.className = "cart-card_text-price";
 
+      // ID
+      cartProductContainer.id = product.product._id;
+
       // EVENT
       deleteBtn.onclick = (e) => {
         e.preventDefault();
         const product = e.target.parentElement.parentElement;
 
-        const id = Number(product.id);
+        const id = cartProductContainer.id;
 
         socket.emit("delete-product-cart", {
-          cart: 1,
+          cart: "67636f6e67a094f3b700575f",
           product: id,
         });
 
@@ -69,8 +76,33 @@ socket.on("cart-list", (data) => {
         });
       };
 
-      // ID
-      cartProductContainer.id = product.id;
+      // PLUS BTN
+      quantityPlus.onclick = (e) => {
+        e.preventDefault();
+        const product = e.target.parentElement.parentElement;
+
+        const id = product.id;
+
+        socket.emit("plus-quantity", {
+          cart: "67636f6e67a094f3b700575f",
+          product: id,
+          operation: "+",
+        });
+      };
+
+      // MINUS BTN
+      quantityMinus.onclick = (e) => {
+        e.preventDefault();
+        const product = e.target.parentElement.parentElement;
+
+        const id = product.id;
+
+        socket.emit("minus-quantity", {
+          cart: "67636f6e67a094f3b700575f",
+          product: id,
+          operation: "-",
+        });
+      };
 
       // LAYOUT
       deleteBtnContainer.appendChild(deleteBtn);

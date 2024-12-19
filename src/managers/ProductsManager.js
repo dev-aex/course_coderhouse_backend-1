@@ -1,181 +1,119 @@
-// UTILS
-import paths from "../utils/paths.js";
-import { generateId } from "../utils/collectionHandler.js";
-import { convertToBool } from "../utils/converter.js";
-import { generateProductCode } from "../utils/random.js";
-import { readJsonFile, writeJsonFile } from "../utils/fileHandler.js";
-
-// MANAGERS
 import ErrorManager from "./ErrorManager.js";
+import { ProductModel } from "../models/product.model.js";
+import { isValidId } from "../config/mongoose.config.js";
+import { generateProductCode } from "../utils/random.js";
 
 class ProductsManager {
-  #jsonFileName;
-  #products;
+  #productModel;
   constructor() {
-    this.#jsonFileName = "products.json";
+    this.#productModel = ProductModel;
   }
 
-  // GET PRODUCTS
-  async getProducts(query) {
-    const { limit } = query;
-
-    try {
-      this.#products = await readJsonFile(paths.data, this.#jsonFileName);
-
-      if (limit > 0) this.#products = this.#products.slice(0, limit);
-
-      return this.#products;
-    } catch (err) {
-      throw new ErrorManager(err.message, err.code);
+  // FIND ONE BY ID
+  async #findOneById(id) {
+    if (!isValidId(id)) {
+      throw new ErrorManager("No valid ID", 400);
     }
-  }
 
-  // FIND BY ID
-  async $findById(id) {
-    try {
-      this.#products = await this.getProducts(0);
-      const productFound = this.#products.find(
-        (product) => product.id === Number(id)
-      );
+    const product = await this.#productModel.findById(id);
 
-      if (!productFound) {
-        throw new ErrorManager("Error finding the product", 404);
-      }
-      return productFound;
-    } catch (err) {
-      throw new ErrorManager(err.message, err.code);
+    if (!product) {
+      throw new ErrorManager(`Product with the ID: ${id} not found `, 404);
     }
+
+    return product;
   }
 
-  // GET BY ID
-  async getById(id) {
+  // READ ALL
+  async readAll(params) {
     try {
-      const productFound = await this.$findById(id);
-      return productFound;
-    } catch (err) {
-      throw new ErrorManager(err.message, err.code);
-    }
-  }
+      const $and = [];
 
-  // INSERT
-  async insertProduct(data) {
-    try {
-      const {
-        name,
-        code,
-        brand,
-        category,
-        price,
-        description,
-        stock,
-        thumbnail,
-        status,
-      } = data;
+      if (params?.name)
+        $and.push({ name: { $regex: params.name, $options: "i" } });
+      const filters = $and.length > 0 ? { $and } : {};
 
-      if (!name || !brand || !category || !price || !description || !stock) {
-        throw new ErrorManager("Missing required data", 400);
-      }
-
-      let productExists = false;
-
-      this.#products = await this.getProducts(0);
-      const allProducts = this.#products;
-
-      for (const item of allProducts) {
-        if (item.code === data.code) {
-          item.stock++;
-          productExists = true;
-          this.#products = allProducts;
-          await writeJsonFile(paths.data, this.#jsonFileName, this.#products);
-          return item;
-        }
-      }
-
-      const newProductId = generateId(await this.getProducts(0));
-      const newProductCode = await generateProductCode(
-        newProductId,
-        brand,
-        category
-      );
-
-      if (!productExists) {
-        const product = {
-          id: newProductId,
-          name,
-          code: newProductCode,
-          brand,
-          category,
-          price: Number(price),
-          description,
-          stock: Number(stock),
-          thumbnail: thumbnail || "",
-          status: true,
-        };
-        this.#products.push(product);
-        await writeJsonFile(paths.data, this.#jsonFileName, this.#products);
-        return product;
-      }
-    } catch (err) {
-      throw new ErrorManager(err.message, err.code);
-    }
-  }
-
-  // UPDATE
-  async updateProduct(id, data) {
-    try {
-      const {
-        name,
-        brand,
-        category,
-        price,
-        description,
-        stock,
-        thumbnail,
-        status,
-      } = data;
-
-      const productFound = await this.$findById(id);
-
-      const product = {
-        id: productFound.id,
-        name: name ? name : productFound.name,
-        code: productFound.code,
-        brand: brand ? brand : productFound.brand,
-        category: category ? category : productFound.category,
-        price: price ? Number(price) : productFound.price,
-        description: description ? description : productFound.description,
-        stock: stock ? Number(stock) : productFound.stock,
-        thumbnail: thumbnail ? thumbnail : productFound.thumbnail,
-        status: status ? convertToBool(status) : productFound.status,
+      const sort = {
+        asc: { name: 1 },
+        desc: { name: -1 },
       };
 
-      const productIndex = this.#products.findIndex(
-        (product) => product.id === productFound.id
-      );
+      const paginationOptions = {
+        limit: params?.limit || 8,
+        page: params?.page || 1,
+        sort: sort[params?.sort] ?? {},
+        lean: true,
+      };
 
-      this.#products[productIndex] = product;
+      return await this.#productModel.paginate(filters, paginationOptions);
+    } catch (err) {
+      throw ErrorManager.handleError(err);
+    }
+  }
 
-      await writeJsonFile(paths.data, this.#jsonFileName, this.#products);
+  // READ ONE BY ID
+  async readOneById(id) {
+    try {
+      const product = await this.#findOneById(id);
 
       return product;
     } catch (err) {
-      throw new ErrorManager(err.message, err.code);
+      throw ErrorManager.handleError(err);
     }
   }
 
-  // DELETE
-  async deleteProduct(id) {
+  // CREATE ONE
+  async createOne(data) {
     try {
-      const productFound = await this.$findById(id);
-      const productIndex = this.#products.findIndex(
-        (product) => product.id === productFound.id
-      );
-      this.#products.splice(productIndex, 1);
-      await writeJsonFile(paths.data, this.#jsonFileName, this.#products);
+      const { newProductId, brand, category } = data;
+
+      data.code = await generateProductCode(newProductId, brand, category);
+
+      const product = await this.#productModel.create(data);
+      return product;
     } catch (err) {
-      throw new ErrorManager(err.message, err.code);
+      throw ErrorManager.handleError(err);
+    }
+  }
+
+  // UPDATE ONE BY ID
+  async updateOneById(id, data) {
+    try {
+      const product = await this.#findOneById(id);
+
+      const updatedProduct = {
+        code: product.code,
+        name: data.name ?? product.name,
+        brand: data.brand ?? product.brand,
+        category: data.category ?? product.category,
+        price: data.price ?? Number(product.price),
+        description: data.description ?? product.description,
+        stock: data.stock ?? Number(product.stock),
+        thumbnail: data.thumbnail ?? product.thumbnail,
+        status: true,
+      };
+
+      await product.set(updatedProduct);
+      await product.save();
+
+      return product;
+    } catch (err) {
+      throw ErrorManager.handleError(err);
+    }
+  }
+
+  // DELETE ONE BY ID
+  async deleteOneByID(id) {
+    try {
+      const product = await this.#findOneById(id);
+
+      await product.deleteOne();
+
+      return product;
+    } catch (err) {
+      throw ErrorManager.handleError(err);
     }
   }
 }
 
-export default ProductsManager;
+export { ProductsManager };

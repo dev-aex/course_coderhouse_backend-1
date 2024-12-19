@@ -12,4 +12,4 @@ ROUTER.get("/", async (req, res) => {
   }
 });
 
-export default ROUTER;
+export { ROUTER };
